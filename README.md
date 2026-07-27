@@ -1,4 +1,4 @@
-# curso-bigdata-ia · Bloque 1 (rev. 2)
+# curso-bigdata-ia · Bloque 1
 
 Repositorio ejecutable del curso **Big Data e Inteligencia Artificial Aplicada — Edición Técnica**
 (Formación San Miguel · Zaragoza · 40 h). Una descarga = entorno + datos + cuadernos + material.
