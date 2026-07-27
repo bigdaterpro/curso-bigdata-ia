@@ -1,0 +1,56 @@
+# docker-compose.yml — entorno del alumno · curso Big Data e IA Aplicada
+# Levanta: JupyterLab con PySpark (8888, token "curso") y un mini-cluster HDFS
+# didáctico (NameNode 9870 + 1 DataNode) que solo se usa en la sesión 3.
+#
+#   docker compose up -d      # levantar (la 1ª vez descarga imágenes)
+#   docker compose ps         # ver estado
+#   docker compose logs jupyter
+#   docker compose down       # apagar (los datos NO se pierden: viven fuera)
+#
+# ¿Puerto 8888 ocupado? Cambia el lado izquierdo del mapeo (p. ej. "8889:8888").
+# La sangría de este archivo ES la estructura: espacios, jamás tabuladores.
+
+services:
+
+  jupyter:
+    image: quay.io/jupyter/pyspark-notebook:latest
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./datasets:/home/jovyan/datasets     # carpeta-de-tu-PC : carpeta-del-contenedor
+      - ./notebooks:/home/jovyan/notebooks
+      - ./plantillas:/home/jovyan/plantillas:ro   # solo lectura: son plantillas, se copian
+    environment:
+      - JUPYTER_TOKEN=curso
+    command: start-notebook.py --NotebookApp.token=curso
+    restart: unless-stopped
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    ports:
+      - "9870:9870"
+    environment:
+      - CLUSTER_NAME=curso
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+      - ./datasets:/datos:ro                 # el namenode DEBE ver los datos para el -put del LAB05
+    restart: unless-stopped
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SERVICE_PRECONDITION=namenode:9870
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    depends_on:
+      - namenode
+    restart: unless-stopped
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:

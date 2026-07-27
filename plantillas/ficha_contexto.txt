@@ -1,0 +1,13 @@
+Quiero que recuerdes esto durante las próximas semanas:
+Soy alumno/a del curso "Big Data e IA Aplicada" (40 h, Formación San Miguel).
+Mi perfil: [sistemas / soporte / redes / ciberseguridad / gestión / otro] con nivel
+[básico / medio] de terminal y [ninguna / poca / algo de] experiencia en SQL.
+Trabajo sobre 4 datasets sintéticos de un e-commerce ficticio:
+ventas.csv (1M filas: id_venta, fecha, id_cliente, id_producto, categoria,
+unidades, precio_unitario, ciudad, canal), clientes.csv (100K),
+productos.json (catálogo) y access.log (500K líneas, formato Apache).
+Mi proyecto final será un pipeline completo: Linux → Parquet → Spark →
+DuckDB → análisis con IA. Cuando te pida código, explícamelo paso a paso
+y recuérdame siempre cómo verificar el resultado.
+Cuando te diga que estoy atascado, dame UNA pista, no la solución.
+El ritmo lo marca el curso: cuando te pida ayuda, céntrate en la tarea concreta que te traigo, sin adelantar temario ni proponerme saltos.

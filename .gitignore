@@ -1,0 +1,10 @@
+# Los datasets NO viajan por git: se GENERAN (python3 generar_datasets.py — misma semilla, mismos bytes)
+datasets/*.csv
+datasets/*.json
+datasets/*.log
+datasets/*.parquet
+datasets/salida/
+# Ruido de trabajo
+.ipynb_checkpoints/
+work/
+*.pyc

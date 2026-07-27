@@ -1,0 +1,6 @@
+Estoy atascado en el [LAB y paso].
+He ejecutado: [pega el comando]
+Ha salido: [pega la salida o el error completo]
+1) Explícame qué significa.
+2) Dame UNA sola pista para avanzar, no la solución.
+3) Dime cómo comprobaré que funciona.
