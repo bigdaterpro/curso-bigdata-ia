@@ -6,7 +6,7 @@ Repositorio ejecutable del curso **Big Data e Inteligencia Artificial Aplicada �
 > Guía completa de cada pieza: `REPO_Manual_del_Zip_Bloque1.pdf` (se distribuye junto a este zip).
 > El estudio y los laboratorios viven en `docs/MANUAL_ALUMNO_Bloque1.pdf`: es autosuficiente.
 
-## Puesta en marcha (LAB01, ~10 min)
+## Puesta en marcha (LAB01)
 
 > ¿Puesto Debian recién instalado? Primero `sudo bash aula/preparar_puesto.sh` (instala
 > git, jq y Docker) y cierra/abre sesión. Detalles de aula completa: `aula/` y el vademécum.
@@ -83,16 +83,10 @@ curso-bigdata-ia/
 ├── notebooks/lab05.ipynb      ← comparativa CSV vs Parquet (sesión 3)
 ├── plantillas/                ← activos del taller: ficha de contexto, prompt
 │                                 de rescate, ficha de exploración, tabla LAB05
-├── docs/
-│   ├── MANUAL_ALUMNO_Bloque1.pdf  ← EL texto del curso: teoría + labs + glosarios
-│   ├── diapositivas/              ← S1 · S2 · S3 (proyección)
-│   └── CHULETAS_Bloque1.pdf       ← una página por sesión, para imprimir
 ├── aula/                      ← provisión de puestos: preparar_puesto.sh + imágenes por USB
-└── servidor-aula/             ← Ollama + Open WebUI (solo servidor del centro)
 ```
 
-*Bloque 1 · rev. 2 · El Bloque 2 añadirá los cuadernos lab06–lab10 (DuckDB y PySpark) y los
-manuales M4–M5. Este repositorio se reedita de forma aditiva al inicio de cada bloque.*
+*Bloque 1 · El Bloque 2 añadirá los cuadernos lab06–lab10 (DuckDB y PySpark). Este repositorio se reedita de forma aditiva al inicio de cada bloque.*
 
 ## Qué contiene este repositorio (y qué no)
 AQUÍ: lo necesario para montar las máquinas y trabajar los labs — entorno (docker-compose.yml,
