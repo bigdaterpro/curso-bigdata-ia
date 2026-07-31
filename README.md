@@ -80,7 +80,8 @@ curso-bigdata-ia/
 ├── generar_datasets.py        ← la fábrica de datos (semilla 2026)
 ├── verificacion.sh            ← batería de comprobación de los datos (docente)
 ├── datasets/                  ← vacía hasta ejecutar el generador
-├── notebooks/lab05.ipynb      ← comparativa CSV vs Parquet (sesión 3)
+├── notebooks/lab03_completo.ipynb   ← métricas, log y gráficas (sesión 2)
+├── notebooks/lab04_lab05.ipynb      ← jq, HDFS y Parquet (sesión 3)
 ├── plantillas/                ← activos del taller: ficha de contexto, prompt
 │                                 de rescate, ficha de exploración, tabla LAB05
 ├── aula/                      ← provisión de puestos: preparar_puesto.sh + imágenes por USB
