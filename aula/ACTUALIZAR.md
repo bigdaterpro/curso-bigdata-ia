@@ -5,7 +5,7 @@ al empezar la primera sesión de cada bloque (ritual de apertura: pull + verific
 ## A) El DOCENTE publica una actualización (⌂ su máquina)
     cd curso-bigdata-ia
     git add -A
-    git commit -m "Bloque 2: cuadernos lab06-10, verificacion_b2, docs"
+    git commit -m "Bloque 2: cuadernos por sesión, verificacion_b2, docs"
     git tag b2-r1                      # una etiqueta por bloque/revisión: b1-r3, b2-r1...
     git push && git push --tags
 Si el aula trabaja SIN remoto git (red local): regenerar el zip y publicarlo por la vía del
@@ -22,13 +22,13 @@ Los datasets NO viajan por git (se generan): si verificacion falla o es un puest
 ### ¿git pull protesta por "cambios locales"?
 Es la regla de oro del curso trabajando: **los originales del curso se copian antes de
 editarse** (tu bitácora y tus copias `mi_*.ipynb` jamás chocan). Si editaste un original:
-    cp notebooks/lab06.ipynb notebooks/mi_lab06_salvado.ipynb   # salva tu trabajo
+    cp notebooks/lab06_lab07.ipynb notebooks/mi_lab06_salvado.ipynb   # salva tu trabajo
     git checkout -- notebooks/                                  # restaura los originales
     git pull                                                    # ahora entra limpio
 
 ### Vía zip (sin git)
 Descarga el zip nuevo, descomprímelo EN OTRA carpeta y copia encima SOLO lo nuevo
-(notebooks/lab06-10, verificacion_b2.sh, docs/, aula/, plantillas/). Tus datasets y tus
+(notebooks/, verificacion_b2.sh, aula/, plantillas/). Tus datasets y tus
 cuadernos propios no se tocan.
 
 ## C) Qué NO hace falta tocar al actualizar
