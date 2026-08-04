@@ -1,25 +1,26 @@
-# curso-bigdata-ia · Bloque 1
+# curso-bigdata-ia · Bloques 1–2
 
-Repositorio ejecutable del curso **Big Data e Inteligencia Artificial Aplicada — Edición Técnica**
-(Formación San Miguel · Zaragoza · 40 h). Una descarga = entorno + datos + cuadernos + material.
+Repositorio ejecutable del curso **Big Data e Inteligencia Artificial Aplicada — Edición
+Técnica** (Formación San Miguel · Zaragoza · 40 h). Una descarga = entorno + datos +
+cuadernos + material.
 
-> Guía completa de cada pieza: `REPO_Manual_del_Zip_Bloque1.pdf` (se distribuye junto a este zip).
-> El estudio y los laboratorios viven en `MANUAL_ALUMNO_Bloque1.pdf`, publicado en Moodle: es
-> autosuficiente.
+> **Ni los manuales del alumno ni la rúbrica viajan en este repositorio: están en Moodle.**
+> Aquí solo vive lo ejecutable. Si algo de aquí contradice al manual del Bloque 1, manda la
+> **hoja de erratas** de Moodle. Los manuales 2 y 3 ya salen corregidos.
 
 ## Puesta en marcha (LAB01)
 
-> ¿Puesto Debian recién instalado? Primero `sudo bash aula/preparar_puesto.sh` (instala git, jq y
-> Docker en **el puesto**) y cierra/abre sesión. Detalles de aula completa: `aula/` y el vademécum.
+> ¿Puesto Debian recién instalado? Primero `sudo bash aula/preparar_puesto.sh` (instala git,
+> jq y Docker) y cierra/abre sesión.
 
 ```bash
 cd curso-bigdata-ia
 python3 generar_datasets.py     # ~1-3 min: fabrica los 4 datasets en ./datasets/
-docker compose up -d            # la 1ª vez descarga imágenes (minutos); después, segundos
+docker compose up -d            # la 1ª vez descarga imágenes; después, segundos
 docker compose ps               # jupyter, namenode y datanode deben estar Up
 ```
 
-Abre **http://localhost:8888** (token: `curso`). En la terminal de JupyterLab:
+Abre **http://IP-DE-LA-VM:8888** (token: `curso`). En la terminal de JupyterLab:
 
 ```bash
 ls -lh datasets/
@@ -29,63 +30,70 @@ ls -lh datasets/
 # -rw-r--r-- 42M  access.log      · 500.000 líneas de servidor web
 ```
 
+> ⚠️ Donde el manual diga `localhost`, en el aula es **la IP de la VM**: tu `localhost` es tu
+> Windows, no la máquina donde corren los servicios.
+
 ## Los datos: semilla fija 2026
 
-`generar_datasets.py` usa `random.seed(2026)`: **todos los puestos generan datos idénticos** y tus
-resultados deben coincidir con los de los manuales. La suciedad de los datasets y el patrón anómalo
-del log están plantados a propósito: son parte de los ejercicios. No modifiques el script (si quieres
-experimentar, cópialo con otro nombre y otra carpeta de salida).
+`generar_datasets.py` usa `random.seed(2026)`: **todos los puestos generan datos idénticos** y
+tus resultados deben coincidir con los de los manuales. La suciedad de los datasets y el patrón
+anómalo del log están plantados a propósito: son parte de los ejercicios. **No modifiques el
+script** (si quieres experimentar, cópialo con otro nombre y otra carpeta de salida).
 
-`verificacion.sh` (uso docente) contrasta los datasets generados con los valores oficiales:
-`bash verificacion.sh` → debe terminar en `28 OK · 0 FALLOS`. Requiere `jq` en el puesto.
+`verificacion.sh` contrasta los datasets con los valores del bloque 1: **28 OK**. Requiere `jq`.
+`verificacion_b2.sh` hace lo propio con los **16 números del bloque 2** — y lleva embebida la
+**definición canónica LIMPIO-v1**: `bash verificacion_b2.sh` → **16 OK · 0 FALLOS**. Requiere
+`pip install duckdb`.
+
+## Cuadernos: uno por SESIÓN de aula
+
+Un cuaderno, un `Ctrl+S`, un entregable:
+
+| Cuaderno | Cubre |
+|---|---|
+| `notebooks/lab03_completo.ipynb` | LAB03 · métricas de negocio y análisis del log |
+| `notebooks/lab04_lab05.ipynb` | LAB04 (jq) + LAB05 (HDFS y Parquet) |
+| `notebooks/bitacora_plantilla.ipynb` | Tu bitácora: cópiala como `mi_bitacora.ipynb` |
+| `notebooks/lab06_lab07.ipynb` | LAB06 (el ancla LIMPIO-v1) + LAB07 (JOINs y los ausentes) |
+| `notebooks/lab08_lab09_lab10.ipynb` | LAB08 (KPIs y auditoría) + LAB09 + LAB10 (Spark y el ETL) |
+
+El manual los nombra sueltos (`lab05.ipynb`, `lab06.ipynb`, `lab09.ipynb`…). **Es un desfase conocido y buscado:** agruparlos evita
+reiniciar el kernel entre laboratorios —el ancla y la sesión de Spark viven en él— y reduce las
+celdas de entrega de ocho a tres por día.
+
+> ⚠️ **No dejes en `notebooks/` cuadernos sueltos con esos nombres.** Las celdas de archivado
+> buscan por patrón (`*lab06*.ipynb`); un cuaderno **vacío** con ese nombre al lado hace que el
+> guardián vea «0 celdas con resultados» y **bloquee la entrega**.
+
+**Tu bitácora** es tu copia de `notebooks/bitacora_plantilla.ipynb`, guardada como
+`mi_bitacora.ipynb`: es la que recogen las celdas de entrega.
+
+### Un detalle del LAB06 que conviene saber antes de clase
+
+El campo `ciudad` vacío del CSV **DuckDB lo lee como `NULL`, no como cadena vacía**. Escrito
+`TRIM(ciudad)=''`, el censo de ciudades vacías devuelve **0 sin dar ningún aviso**. La forma que
+usan estos cuadernos y `verificacion_b2.sh` es `COALESCE(TRIM(ciudad),'') = ''` → **3030**, que
+caza además los espacios en blanco. **Mismos 16 números, y la regla hace lo que dice que hace.**
 
 ## Servicios
 
 | Servicio | Dónde | Para qué |
 |---|---|---|
-| JupyterLab + PySpark | `localhost:8888` (token `curso`) | terminal y cuadernos de todo el curso |
-| HDFS didáctico (NameNode) | `localhost:9870` | solo sesión 3 (LAB05) |
-| IA del aula (Open WebUI) | `http://IP-del-aula:8080` | la monta el docente con `servidor-aula/` |
-
-### Dos herramientas que el contenedor NO trae
-
-`preparar_puesto.sh` instala `jq` en **el puesto**, no dentro del contenedor — que es donde corren
-los laboratorios. Desde la terminal de JupyterLab, sin permisos de administrador:
-
-```bash
-mamba install -y -c conda-forge jq     # LAB04
-pip install duckdb                     # LAB05  (y después reinicia el kernel)
-```
-
-Se pierden si algún día recreas el contenedor: se reinstalan igual.
+| JupyterLab + PySpark | `IP-DE-LA-VM:8888` (token `curso`) | terminal y cuadernos de todo el curso |
+| HDFS didáctico (NameNode) | `IP-DE-LA-VM:9870` | solo la sesión del LAB05 |
 
 ## Problemas frecuentes
 
 - **`port is already allocated`** → otro servicio usa el puerto: edita el lado izquierdo del mapeo
   en `docker-compose.yml` (p. ej. `"8889:8888"`) y vuelve a `docker compose up -d`.
 - **`permission denied … docker.sock`** (Linux) → `sudo usermod -aG docker $USER` y cerrar sesión.
-- **Contenedor `Exited`** → `docker compose logs <servicio>` y lee la última pantalla. En WSL2 suele
-  ser memoria: puedes apagar el HDFS hasta la sesión 3 con `docker compose stop namenode datanode`.
-- **`pip` sin red dentro del contenedor** (el host sí resuelve) → contenedor nacido en otra red:
-  mira `docker exec jupyter cat /etc/resolv.conf`; si dice "NO EXTERNAL NAMESERVERS", añade
-  `{"dns": ["10.0.2.3", "1.1.1.1"]}` a `/etc/docker/daemon.json`, reinicia docker y
-  `docker compose up -d --force-recreate`.
-- **`jq: command not found` dentro del contenedor** → está instalado en el puesto, no en el
-  contenedor: `mamba install -y -c conda-forge jq`.
-- **`bc: command not found`** → no está en la imagen, y no hace falta: los cálculos del curso van
-  con `awk -v … 'BEGIN {…}'`.
-- **Un `!comando` con `awk` revienta en una celda** → IPython interpreta `$` y `{}` como código
-  Python. En cuadernos, los comandos de shell van con `%%bash` en la primera línea.
+- **Contenedor `Exited`** → `docker compose logs <servicio>`. Suele ser memoria: puedes apagar el
+  HDFS hasta su sesión con `docker compose stop namenode datanode`.
 - **Máquina con poca RAM (<4 GB)** → antes de convertir a Parquet:
   `duckdb.sql("SET memory_limit='512MB'")` — más lento, mismos resultados.
-- **Apple Silicon / ARM** → todo funciona salvo el HDFS didáctico (imágenes solo AMD64): esa demo
-  requiere un puesto x86. El resto del curso, DuckDB y Spark incluidos, sí va.
+- **Apple Silicon / ARM** → todo funciona salvo el HDFS didáctico (imágenes solo AMD64).
 - **«Me salen otros números» fuera del contenedor** → host en español: `awk`/`sort` cambian con el
-  idioma (coma decimal, cotejo). Trabaja en la terminal del contenedor; `verificacion.sh` ya fuerza
-  `LC_ALL=C`.
-- **La entrega sale sin resultados ni gráficas** → se archivó el fichero del disco antes de guardar.
-  **`Ctrl+S` y repite las celdas de entrega.** El HTML lo delata: si no tiene números de celda
-  `[1]:`, `[2]:`… no lleva tu trabajo. *El tamaño del fichero engaña; ese número, no.*
+  idioma. Trabaja en la terminal del contenedor; `verificacion.sh` ya fuerza `LC_ALL=C`.
 - **Recuperación de desastre** → borra la carpeta, descomprime de nuevo, regenera datasets y `up`.
   Cinco minutos y el curso está intacto.
 
@@ -93,40 +101,29 @@ Se pierden si algún día recreas el contenedor: se reinstalan igual.
 
 ```
 curso-bigdata-ia/
-├── README.md                        ← estás aquí
-├── docker-compose.yml               ← entorno del alumno (Jupyter + HDFS didáctico)
-├── generar_datasets.py              ← la fábrica de datos (semilla 2026)
-├── verificacion.sh                  ← batería de comprobación de los datos (docente)
-├── datasets/                        ← vacía hasta ejecutar el generador
-├── notebooks/lab03_completo.ipynb   ← métricas, log y gráficas (sesión 2)
-├── notebooks/lab04_lab05.ipynb      ← jq, HDFS y Parquet (sesión 3)
-├── plantillas/                      ← activos del taller: ficha de contexto, prompt de rescate,
-│                                      ficha de exploración, tabla LAB05 y los manuales de
-│                                      referencia de jq y DuckDB
-├── aula/                            ← provisión de puestos: preparar_puesto.sh + imágenes por USB
-└── servidor-aula/                   ← Ollama + Open WebUI (solo servidor del centro)
+├── README.md                  ← estás aquí
+├── docker-compose.yml         ← entorno del alumno (Jupyter + HDFS didáctico)
+├── generar_datasets.py        ← la fábrica de datos (semilla 2026)
+├── verificacion.sh            ← los 28 números del bloque 1 (docente)
+├── verificacion_b2.sh         ← los 16 números del bloque 2 + el ancla LIMPIO-v1
+├── datasets/                  ← vacía hasta ejecutar el generador
+├── notebooks/                 ← los cuadernos, agrupados por sesión
+├── plantillas/                ← ficha de contexto, prompt de rescate, fichas de trabajo
+└── aula/                      ← provisión de puestos, publicación e imágenes por USB
 ```
 
-*Bloque 1 · El Bloque 2 añadirá los cuadernos lab06–lab10 (DuckDB y PySpark). Este repositorio se
-reedita de forma aditiva al inicio de cada bloque.*
+*Bloques 1–2 · el Bloque 3 añadirá el cuaderno de la API, `aula/n8n-compose.yml` y `servidor-aula/`. Este repositorio se reedita de forma aditiva al inicio de cada bloque.*
 
 ## Qué contiene este repositorio (y qué no)
 
-**AQUÍ:** lo necesario para montar las máquinas y trabajar los labs — entorno
-(`docker-compose.yml`, `aula/`, `servidor-aula/`), datos (`generar_datasets.py`: los datasets NACEN
-en cada máquina), verificación (`verificacion.sh`), cuadernos (`notebooks/lab*.ipynb`) y plantillas
-de trabajo (`plantillas/`).
+**AQUÍ:** lo necesario para montar las máquinas y trabajar los laboratorios — entorno, datos
+(que NACEN en cada máquina), verificación, cuadernos y plantillas.
 
-**EN MOODLE:** toda la teoría — manuales, diapositivas, chuletas y la rúbrica del proyecto.
+**EN MOODLE:** toda la teoría — **los manuales del alumno**, diapositivas, chuletas, **la rúbrica
+del proyecto** y **la hoja de erratas del Bloque 1**. Nada de eso entra en el repositorio.
 
-**EN NINGÚN SITIO PÚBLICO:** el solucionario del docente y los runbooks de sesión. Contienen las
-respuestas y los números de bloques posteriores.
+**EN NINGÚN SITIO PÚBLICO:** el solucionario del docente y los runbooks de sesión.
 
-## Puesta en marcha en una máquina
+## Ciclo entre clases
 
-```bash
-python3 generar_datasets.py && bash verificacion.sh     # 28 OK
-docker compose up -d                                    # Jupyter en :8888
-```
-
-Ciclo entre clases: `aula/ACTUALIZAR.md` · Publicación del docente: `aula/GITHUB.md`
+Actualización del alumnado: `aula/ACTUALIZAR.md` · publicación del docente: `aula/GITHUB.md`
