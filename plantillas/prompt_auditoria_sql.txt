@@ -1,0 +1,13 @@
+[PLANTILLA LAB08 — auditoría de SQL generado por IA · pegar en tu asistente 🌐]
+PETICIÓN 1 (sin ancla — tal cual):
+  Escríbeme la consulta SQL (dialecto DuckDB) de la facturación total por ciudad
+  sobre el fichero ventas.csv (columnas: id_venta, fecha, id_cliente, id_producto,
+  categoria, unidades, precio_unitario, ciudad, canal), ordenada de mayor a menor.
+
+PETICIÓN 2 (con el ancla — después de auditar la primera):
+  Repite la consulta aplicando EXACTAMENTE esta definición de limpio (LIMPIO-v1):
+  (1) excluir filas con precio_unitario <= 0; (2) ciudad = TRIM + primera letra en
+  mayúscula y resto en minúscula; (3) ciudad vacía = NULL y excluida del GROUP BY.
+
+AUDITORÍA (tu párrafo del entregable): ¿qué asumió la IA en la 1ª? ¿qué cambió con el
+ancla? ¿cuánto vale la diferencia en Zaragoza y por qué?
