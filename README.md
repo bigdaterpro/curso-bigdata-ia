@@ -144,7 +144,7 @@ curso-bigdata-ia/
 ├── plantillas/                ← ficha de contexto, prompt de rescate, fichas de trabajo
 └── aula/                      ← provisión de puestos, publicación e imágenes por USB
     ├── preparar_puesto.sh     ← Debian recién instalado -> git, jq y Docker (sudo)
-    ├── prepararb2.sh    ← ritual de apertura del Bloque 2: sincroniza, repara y verifica
+    ├── prepararb2.sh          ← ritual de apertura del Bloque 2: sincroniza, repara y verifica
     ├── ACTUALIZAR.md          ← cómo sincroniza el alumnado entre bloques
     └── GITHUB.md              ← cómo publica el docente
 ```
