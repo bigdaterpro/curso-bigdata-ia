@@ -152,7 +152,8 @@ curso-bigdata-ia/
 └── aula/                      ← provisión de puestos, publicación e imágenes por USB
     ├── preparar_puesto.sh     ← Debian recién instalado -> git, jq y Docker (sudo)
     ├── prepararb2.sh          ← ritual de apertura del Bloque 2: sincroniza, repara y verifica
-    ├── revisar_markdown_ipynb.py  ← audita (y corrige) el Markdown de los cuadernos
+    ├── pulir_cuadernos.py     ← audita (y corrige) el Markdown de los cuadernos
+    ├── verificar_cuadernos.py ← el juez (16 pruebas, código independiente)
     ├── MARKDOWN.md            ← cómo se revisa un cuaderno ya editado
     ├── ACTUALIZAR.md          ← cómo sincroniza el alumnado entre bloques
     └── GITHUB.md              ← cómo publica el docente
