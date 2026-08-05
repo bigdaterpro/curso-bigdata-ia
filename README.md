@@ -180,7 +180,7 @@ Markdown antes de publicar: `aula/MARKDOWN.md`
 Y antes de cada `git push` de material, dos segundos bien invertidos:
 
 ```bash
-python3 aula/revisar_markdown_ipynb.py notebooks/*.ipynb
+python3 aula/verificar_cuadernos.py notebooks/*.ipynb
 ```
 
 El ritual de cada bloque es siempre el mismo: **sincronizar, verificar, y solo entonces abrir el
