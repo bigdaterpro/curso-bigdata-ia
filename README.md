@@ -130,7 +130,7 @@ caza además los espacios en blanco. **Mismos 16 números, y la regla hace lo qu
 - **Una tabla de un cuaderno se ve como `| --- | --- |`, o una frase sale partida en dos** → hay
   una línea en blanco entre las filas de la tabla o a mitad de la frase. Markdown exige que esas
   líneas vayan **seguidas**. Lo detecta y lo corrige
-  `python3 aula/revisar_markdown_ipynb.py --arreglar notebooks/*.ipynb`; el procedimiento completo
+  `python3 aula/pulir_cuadernos.py --arreglar --imports notebooks/*.ipynb`; el procedimiento completo
   está en `aula/MARKDOWN.md`.
 - **En una tabla se ven etiquetas `<code>&#124;</code>` en vez de una tubería** → la entidad HTML
   no se interpreta dentro de un span de código. En una fila de tabla la tubería se escribe `\|`.
