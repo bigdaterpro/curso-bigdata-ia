@@ -1,0 +1,21 @@
+# ─────────────────────────────────────────────────────────────────────────
+#  RUTA A · publicar el puerto del cuadro de mando (8501)
+#
+#  Compose lee ESTE fichero automáticamente si se llama docker-compose.override.yml
+#  y está JUNTO al docker-compose.yml principal (en la raíz del repositorio).
+#  Así no hay que tocar el compose original: se añade encima.
+#
+#      cp aula/docker-compose.override.yml ./docker-compose.override.yml
+#      docker compose config --services      # <-- confirma el nombre del servicio
+#      docker compose up -d                  # recrea el contenedor con el puerto
+#
+#  ⚠️ El nombre del servicio de abajo TIENE QUE COINCIDIR con el tuyo.
+#     Si tu servicio no se llama "jupyter", cámbialo aquí antes de copiarlo.
+#  ⚠️ Recrear el contenedor NO borra los cuadernos: viven en un volumen.
+#     Aun así, pruébalo tú antes de hacerlo con quince puestos delante.
+# ─────────────────────────────────────────────────────────────────────────
+
+services:
+  jupyter:
+    ports:
+      - "8501:8501"

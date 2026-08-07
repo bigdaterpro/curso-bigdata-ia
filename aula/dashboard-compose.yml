@@ -1,0 +1,32 @@
+# CUADRO DE MANDO · compose propio, aparte del principal
+# Levantar:  docker compose -f aula/dashboard-compose.yml up -d
+# Abrir:     http://IP-DE-LA-VM:8501     (la IP de la VM, NO localhost)
+#
+# Ojo: Docker resuelve las rutas relativas contra la carpeta de ESTE fichero.
+# Por eso el volumen sube un nivel con ".." — la lección del n8n del bloque 3.
+
+services:
+  dashboard:
+    image: python:3.11-slim
+    container_name: dashboard
+    working_dir: /app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../notebooks:/app                  # aquí vive app.py
+      - ../datasets:/datasets:ro           # tus datos, en SOLO LECTURA
+    environment:
+      # La clave NO se escribe aquí: se hereda de tu terminal.
+      #   export GEMINI_API_KEY=...   antes del  docker compose up
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODELO=${GEMINI_MODELO:-gemini-2.0-flash}
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "pip install --no-cache-dir -q
+             streamlit==1.61.0 plotly==6.9.0 "starlette<1.4" duckdb pandas pyarrow &&
+             streamlit run app.py
+                --server.port 8501
+                --server.address 0.0.0.0
+                --server.headless true
+                --browser.gatherUsageStats false"
+    restart: unless-stopped
